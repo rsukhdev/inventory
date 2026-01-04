@@ -23,7 +23,7 @@
       overscroll-behavior-y: contain;
       /* Padding for notched screens */
       padding-top: env(safe-area-inset-top);
-      padding-bottom: span(safe-area-inset-bottom);
+      padding-bottom: env(safe-area-inset-bottom);
     }
     @media print {
       .no-print { display: none !important; }
@@ -50,9 +50,7 @@
 </script>
 <!-- Shim for process.env used by the SDK in a browser environment -->
 <script>
-  if (typeof window.process === 'undefined') {
-    window.process = { env: { API_KEY: "" } };
-  }
+  window.process = window.process || { env: { API_KEY: "" } };
 </script>
 </head>
 <body>
