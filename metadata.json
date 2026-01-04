@@ -1,0 +1,7 @@
+{
+  "name": "TexFlow Inventory main",
+  "description": "A high-end textile fabric inventory management system featuring real-time stock tracking, visual analytics, and Gemini-powered fabric analysis.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
