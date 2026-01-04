@@ -12,6 +12,11 @@ app.use((req, res, next) => {
   next();
 });
 
+// Health check endpoint for Cloud Run/Google Cloud Load Balancer
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
+
 // Serve all static files from the current directory
 app.use(express.static(__dirname));
 
@@ -21,13 +26,19 @@ app.get('/', (req, res) => {
 });
 
 // For SPA routing: serve index.html for any request that doesn't match a file
-// This is critical for React Router/internal navigation
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  const indexPath = path.join(__dirname, 'index.html');
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      console.error('Error sending index.html:', err);
+      res.status(500).send('Internal Server Error: index.html missing');
+    }
+  });
 });
 
 // Explicitly bind to 0.0.0.0 as required by Cloud Run
 app.listen(port, '0.0.0.0', () => {
   console.log(`TexFlow Server is active on port ${port}`);
   console.log(`Serving files from: ${__dirname}`);
+  console.log(`Process ID: ${process.pid}`);
 });
